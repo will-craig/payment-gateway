@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="PaymentGateway.IntegrationTests/PaymentGateway.IntegrationTests.csproj" />
+    <Project Path="PaymentGateway.UnitTests/PaymentGateway.UnitTests.csproj" />
+  </Folder>
+  <Project Path="PaymentGateway.Application/PaymentGateway.Application.csproj" />
+  <Project Path="PaymentGateway.BankClient/PaymentGateway.BankClient.csproj" />
+  <Project Path="PaymentGateway.DAL/PaymentGateway.DAL.csproj" />
+  <Project Path="PaymentGateway.Domain/PaymentGateway.Domain.csproj" />
+  <Project Path="PaymentGateway/PaymentGateway.csproj" />
+</Solution>
