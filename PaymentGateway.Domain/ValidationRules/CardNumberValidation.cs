@@ -1,6 +1,6 @@
 namespace PaymentGateway.Domain.ValidationRules;
 
-public class CardNumberValidation
+public static class CardNumberValidation
 {
     public static bool IsValid(string cardNumber)
     {

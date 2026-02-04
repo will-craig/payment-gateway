@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace PaymentGateway.Models.Requests;
 
 public record PostPaymentRequest(

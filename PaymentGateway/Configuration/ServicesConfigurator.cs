@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using PaymentGateway.Application;
 using PaymentGateway.Application.Services;
 using PaymentGateway.Application.Validator;
 using PaymentGateway.BankClient;
