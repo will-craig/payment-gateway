@@ -5,7 +5,6 @@
 1) Build and Run in an IDE of your choice or open a terminal within the main project (payment-gateway/PaymentGateway) & dotnet run
 2) Run cli cmd: dotnet test, from the root. Or run via the IDE. Integration Tests should first launch the bank simulator: docker compose from root.
 
----
 ## Design Considerations
 For this implementation I’ve adapted a *DDD-lite* approach.
 I say lite because the actual domain itself is small.
@@ -38,8 +37,6 @@ however I created the solution from the ground up (I didnt fork the example proj
 3) The payment entity is then mapped to a dto, and returned to the controller, which then returns it to the client. 
 The mapper takes care of obfuscating the card number, and mapping the expiry date to the correct format.
 
----
-
 ## Assumptions
 
 ### Validation
@@ -53,7 +50,6 @@ I decided to return a model with the relevant error messages, so that the client
 I've taken the liberty of assuming the 'declined' status as the default one, in this scenario. I wanted to avoid throwing unnecessary exceptions 
 and to keep expected failure scenarios explicit. I would've like to return a specific response for this scenario, 
 however the documentation specifies: "your API design and architecture should be focused on meeting the functional requirements outlined above." So i've avoided introducing additional behaviour beyond this.
----
 
 ## Testing
 
@@ -70,8 +66,6 @@ The integration tests cover the end2end flow of the payment processing. I've cre
 One thing worth noting is I wouldn't ordinarily create integration tests which rely on a third party (the bank simulator in this case), being a dependency. I prefer the test suite to be self contained.
 Ordinarily I would create a conditional stub than can be configured to sit in its place when offline.
 The simulator is a special case as it is essentially a stub itself, and is designed to be run locally. And I wanted to avoid doing to many things not specified the requirements.
-
----
 
 ## Reflection/ What I would do differently next time / Suggestions for improvement
 - With regard to the validation, I created the validation rules as static functions for swiftness and ease of use. What would have been nice, would be to create (non-static) with a common interface for them.
