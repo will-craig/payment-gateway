@@ -39,7 +39,9 @@ however I created the solution from the ground up (I didnt fork the example proj
 The mapper takes care of obfuscating the card number, and mapping the expiry date to the correct format.
 
 ---
+
 ## Assumptions
+
 ### Validation
 I've made some assumptions on what is expected at certain stages of the process, when a payment fails validation.
 - The documentation doesn't specifiy what the response should look like when a payment fails validation. Only that we have a rejected status. 
@@ -52,26 +54,32 @@ I've taken the liberty of assuming the 'declined' status as the default one, in 
 and to keep expected failure scenarios explicit. I would've like to return a specific response for this scenario, 
 however the documentation specifies: "your API design and architecture should be focused on meeting the functional requirements outlined above." So i've avoided introducing additional behaviour beyond this.
 ---
+
 ## Testing
+
 ### Unit Tests
+
 Any and all conditional logic should be covered by unit tests. I've tried to hit as many validation edge case scenarios as I could think of.
 I've skipped controller level unit tests as all we would be testing he are mocks, and the code coverage should be handled by our integration level tests.
 
 I've also implemented an ITimeProvider, which can be mocked. This allows the time based functions to be tested in a consistent way.
 
 ### Integration Tests
+
 The integration tests cover the end2end flow of the payment processing. I've created one for each realistic response a merchant can expect. 
-One thing worth noting is I wouldn't ordinarily create integration tests which rely on a third party (the bank simulator in this case), being run. And prefer tests to be ran at will.
+One thing worth noting is I wouldn't ordinarily create integration tests which rely on a third party (the bank simulator in this case), being a dependency. I prefer the test suite to be self contained.
 Ordinarily I would create a conditional stub than can be configured to sit in its place when offline.
 The simulator is a special case as it is essentially a stub itself, and is designed to be run locally. And I wanted to avoid doing to many things not specified the requirements.
+
 ---
+
 ## Reflection/ What I would do differently next time / Suggestions for improvement
-In regards to the validation, I created the validation rules as static functions for swiftness and ease of use. What would have been nice, would be to create (non-static) with a common interface for them.
+- With regard to the validation, I created the validation rules as static functions for swiftness and ease of use. What would have been nice, would be to create (non-static) with a common interface for them.
 This would have allowed me to mock them in the Validator Unit test. Due to this lack of isolation, the unit tests for the validator are more like integration tests, as they are testing the actual validation rules, rather than just the orchestration of them. 
 A common interface would've allowed me to do something fancy like use the strategy pattern and preload the rules into a list that can be iterated over. Ultimately I went for simplicity
 as I want to avoid over engineering, and the current implementation is straightforward and easy to understand.
 
-Another area I would improve is the error handling for the bank client. It mostly functions as a wrapper for the HttpClient, but I would like to implement some retry logic for transient errors
+- Another area I would improve is the error handling for the bank client. It mostly functions as a wrapper for the HttpClient, but I would like to implement some retry logic for transient errors
 and also some better handling for different response codes. For example, if the bank simulator is down, it would be nice to have a specific response for this, rather than just a generic "declined" status.
 
-Maybe some sort of idempotency key for the payment processing. Did this exact payment and card just get submitted? 
+- Maybe some sort of idempotency key for the payment processing. Did this exact payment and card just get submitted? 
